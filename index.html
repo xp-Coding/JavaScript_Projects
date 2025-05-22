@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>JavaScript Projects for Practice & Logic Building</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-html.min.js"></script>
+
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        display: flex;
+        background-color: #f4f4f4;
+        overflow: hidden;
+      }
+      .sidebar {
+        width: 250px;
+        min-width: 250px;
+        background-color: #2c3e50;
+        color: white;
+        height: 100vh;
+        overflow-y: auto;
+        padding: 0px 20px;
+        position: sticky;
+        top: 0;
+        left: 0;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      }
+      .sidebar h2 {
+        border-bottom: 2px solid #45a049;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+      }
+      .sidebar-menu {
+        list-style-type: none;
+        padding: 0;
+      }
+      .sidebar-menu li {
+        padding: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        border-bottom: 1px solid #34495e;
+      }
+      .sidebar-menu li:hover {
+        background-color: #34495e;
+      }
+      .sidebar-menu li.active {
+        background-color: #45a049;
+      }
+      .main-content {
+        flex-grow: 1;
+        padding: 20px;
+        background-color: white;
+        max-height: 100vh;
+        overflow-y: auto;
+      }
+      .code-section {
+        margin-bottom: 20px;
+      }
+      pre {
+        background-color: #f4f4f4;
+        padding: 15px;
+        border-radius: 5px;
+        position: relative;
+        overflow-x: auto;
+        margin-top: 10px;
+      }
+      .copy-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: #45a049;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 3px;
+        transition: background-color 0.3s;
+      }
+      .copy-btn:hover {
+        background-color: #2980b9;
+      }
+      .project-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #45a049;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sidebar">
+      <h2>JavaScript Projects</h2>
+      <ul class="sidebar-menu" id="projectMenu">
+        <li data-project="oddEven">Odd or Even Checker</li>
+        <li data-project="numberGuess">Number Guessing Game</li>
+        <li data-project="palindrome">Palindrome Checker</li>
+        <li data-project="calculator">Simple Calculator</li>
+        <li data-project="fibonacci">Fibonacci Sequence Generator</li>
+        <li data-project="ticTacToe">Tic-Tac-Toe Game</li>
+        <!-- <li data-project="todoList">To-Do List App</li> -->
+        <!-- <li data-project="weatherApp">Weather App with API</li> -->
+        <li data-project="passwordGenerator">Password Generator</li>
+      </ul>
+    </div>
+    <div class="main-content" id="mainContent">
+      <h1>Select a Project to View Details</h1>
+    </div>
+
+    <script>
+      const projects = {
+        oddEven: {
+          description:
+            "This project is a beginner-friendly web application designed to determine whether a number or a list of numbers is odd or even. It features a user-friendly interface where users can enter single numbers or comma-separated lists of numbers into an input field. Upon clicking the 'Check Odd or Even' button, the application evaluates the input and displays the results, identifying each number as either odd or even.",
+          html: `
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+&lt;title&gt;Odd or Even Checker&lt;/title&gt;
+&lt;style&gt;
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    text-align: center;
+}
+input {
+    padding: 10px;
+    width: 300px;
+    margin-bottom: 10px;
+}
+button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #0056b3;
+}
+.output {
+    margin-top: 20px;
+    text-align: left;
+    display: inline-block;
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Odd or Even Checker&lt;/h1&gt;
+&lt;p&gt;Enter a number or a comma-separated list of numbers:&lt;/p&gt;
+&lt;input type="text" id="numberInput" placeholder="e.g., 2, 3, 5, 8"&gt;
+&lt;br&gt;
+&lt;button onclick="checkNumber()"&gt;Check Odd or Even&lt;/button&gt;
+&lt;br&gt;
+&lt;div class="output" id="result"&gt;&lt;/div&gt;
+&lt;script src="script.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+
+                `,
+          javascript: `
+function checkNumber() {
+    const number = document.getElementById('numberInput').value;
+    const resultElement = document.getElementById('result');    
+    if (!number) {
+        resultElement.textContent = 'Enter a valid number';
+    } else if(number % 2 === 0){
+        resultElement.textContent = number + ' is an Even number';
+    }
+     else {
+        resultElement.textContent = number + ' is an Odd number';
+    }
+}
+                `,
+        },
+        numberGuess: {
+          description: `Generate Random Number: The generateTargetNumber function creates a random target number between 1 and 20 using Math.random() and logs it for debugging. This target number is the value the user must guess. Validate and Process Guess: The checkGuess function retrieves the user's guess from the input field and validates it to ensure it is a number between 1 and 20. If invalid, it shows a warning message.Check Guess Against Target: The function compares the user's guess to the target number. If the guess matches, the user wins, and a success message is displayed. If the guess is too high or too low, a hint message is shown with the remaining attempts. Attempts Tracking: The function tracks the number of attempts using the attempts variable. If the user exceeds the maxAttempts limit, the game ends, and the correct number is revealed.Game Reset: The resetGame function resets the target number, attempts, and input field, and displays a fresh message prompting the user to guess a number. The game restarts after a 5-second delay when either the user wins or the attempts are exhausted.`,
+          html: `
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Number Guessing Game&lt;/title&gt;
+    &lt;style&gt;
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        input {
+            padding: 10px;
+            width: 200px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+        .score {
+            margin-top: 10px;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Number Guessing Game&lt;/h1&gt;
+    &lt;p&gt;Guess the number (between 1 and 20):&lt;/p&gt;
+    &lt;input type="number" id="guessInput" placeholder="Enter your guess"&gt;
+    &lt;br&gt;
+    &lt;button onclick="checkGuess()"&gt;Submit Guess&lt;/button&gt;
+    &lt;div class="message" id="message"&gt;&lt;/div&gt;
+    &lt;div class="score" id="score"&gt;&lt;/div&gt;
+
+    &lt;script src="script.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+                `,
+          javascript: `
+let attempts = 0;
+let maxAttempts = 10;
+let targetNumber;
+
+function generateTargetNumber() {
+    targetNumber = Math.floor(Math.random() * 20) + 1;
+    console.log(targetNumber);
+}
+
+generateTargetNumber();
+
+function checkGuess() {
+    const guessInput = document.getElementById('guessInput');
+    const messageElement = document.getElementById('message');
+    const userGuess = parseInt(guessInput.value);
+    
+    if (attempts < maxAttempts) {
+        attempts++;
+        
+        if (!userGuess || userGuess < 1 || userGuess > 20) {
+            messageElement.textContent = 'Enter a valid number between 1 and 20';
+        }
+        else if (userGuess === targetNumber) {
+            messageElement.textContent = 'Congratulations! You guessed the number in ' + attempts + ' attempts';
+            setTimeout(resetGame, 5000);
+        } else if (userGuess < targetNumber) {
+            messageElement.textContent = 'Too low! Try again. Attempts remaining: ' + (maxAttempts - attempts);
+        } else {
+            messageElement.textContent = 'Too high! Try again. Attempts remaining: ' + (maxAttempts - attempts);
+        }
+    } else {
+        messageElement.textContent = 'Game over! The number was ' + targetNumber;
+        setTimeout(resetGame, 5000);
+    }
+}
+
+function resetGame() {
+    generateTargetNumber();
+    attempts = 0;
+    document.getElementById('guessInput').value = '';
+    document.getElementById('message').textContent = 'Guess a number between 1 and 20';
+}               
+
+`,
+        },
+
+        palindrome: {
+          description: `Input Validation: The function retrieves the value of the input field using document.getElementById("inputText").value. It checks if the input is empty or contains only spaces, and if so, displays an error message in the messageDiv and exits the function. Sanitization: The input text is sanitized by removing spaces and special characters using a regular expression (/[^a-zA-Z0-9]/g) and converting the result to lowercase with .toLowerCase().Reversal: The sanitized text is reversed by converting it into an array with .split(""), reversing the array with .reverse(), and converting it back to a string using .join(""). Comparison: The function compares the sanitized text with its reversed version. If they are identical, it displays a success message stating the input is a palindrome; otherwise, it shows a failure message.Reset: The function clears the input field by setting document.getElementById("inputText").value to an empty string, preparing the form for the next input.`,
+          html: `
+               &lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Palindrome Checker&lt;/title&gt;
+    &lt;style&gt;
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        input {
+            padding: 10px;
+            width: 300px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Palindrome Checker&lt;/h1&gt;
+    &lt;p&gt;Enter a word or phrase to check if it's a palindrome:&lt;/p&gt;
+    &lt;input type="text" id="inputText" placeholder="Enter a word or phrase"&gt;
+    &lt;br&gt;
+    &lt;button onclick="checkPalindrome()"&gt;Check&lt;/button&gt;
+    &lt;div class="message" id="message"&gt;&lt;/div&gt;
+
+    &lt;script src="script.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+`,
+          javascript: `
+  // Function to check if a string is a palindrome
+function checkPalindrome() {
+    const inputText = document.getElementById("inputText").value;
+    const messageDiv = document.getElementById("message");
+
+    // Validate input
+    if (!inputText.trim()) {
+        messageDiv.textContent = "Please enter a word or phrase.";
+        return;
+    }
+
+    // Remove spaces, special characters, and convert to lowercase
+    const cleanText = inputText.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+
+    // Reverse the string and compare with original
+    const reversedText = cleanText.split("").reverse().join("");
+
+    // Check if it's a palindrome
+    if (cleanText === reversedText) {
+        messageDiv.textContent = inputText + ' is a palindrome! 🎉';
+    } else {
+        messageDiv.textContent = inputText + ' is not a palindrome. ❌';
+    }
+
+    // Clear the input field
+    document.getElementById("inputText").value = "";
+}
+  `,
+        },
+
+        calculator: {
+          description: `The Below JavaScript functions provide functionality to append numbers or operators, clear the display, delete the last character, and calculate the result in a simple calculator interface. @param value - The value parameter in the appendToDisplay function represents the number or operator that you want to append to the display. It is the input that will be added to the current content of the display.`,
+          html: `
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Simple Calculator&lt;/title&gt;
+    &lt;style&gt;
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        .calculator {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 10px;
+            width: 200px;
+            margin: 0 auto;
+        }
+        input {
+            grid-column: span 4;
+            padding: 10px;
+            font-size: 1.5em;
+            text-align: right;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 20px;
+            font-size: 1.5em;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #e0e0e0;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Simple Calculator&lt;/h1&gt;
+    &lt;div class="calculator"&gt;
+        &lt;input type="text" id="display" disabled /&gt;
+        &lt;button onclick="appendToDisplay('1')"&gt;1&lt;/button&gt;
+        &lt;button onclick="appendToDisplay('2')"&gt;2&lt;/button&gt;
+        &lt;button onclick="appendToDisplay('3')"&gt;3&lt;/button&gt;
+        &lt;button onclick="appendToDisplay('+')"&gt;+&lt;/button&gt;
+        &lt;button onclick="appendToDisplay('4')"&gt;4&lt;/button&gt;
+        &lt;button onclick="appendToDisplay('5')"&gt;5&lt;/button&gt;
+        &lt;button onclick="appendToDisplay('6')"&gt;6&lt;/button&gt;
+        &lt;button onclick="appendToDisplay('-')"&gt;-&lt;/button&gt;
+        &lt;button onclick="appendToDisplay('7')"&gt;7&lt;/button&gt;
+        &lt;button onclick="appendToDisplay('8')"&gt;8&lt;/button&gt;
+        &lt;button onclick="appendToDisplay('9')"&gt;9&lt;/button&gt;
+        &lt;button onclick="appendToDisplay('*')"&gt;*&lt;/button&gt;
+        &lt;button onclick="appendToDisplay('0')"&gt;0&lt;/button&gt;
+        &lt;button onclick="clearDisplay()"&gt;C&lt;/button&gt;
+        &lt;button onclick="calculateResult()"&gt;=&lt;/button&gt;
+        &lt;button onclick="appendToDisplay('/')"&gt;/&lt;/button&gt;
+        &lt;button onclick="deleteLast()"&gt;←&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;script src="script.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+                `,
+          javascript: `
+// Function to append numbers or operators to the display
+function appendToDisplay(value) {
+    const display = document.getElementById('display');
+    display.value += value;
+}
+
+// Function to clear the display
+function clearDisplay() {
+    const display = document.getElementById('display');
+    display.value = '';
+}
+
+// Function to delete the last character from the display
+function deleteLast() {
+    const display = document.getElementById('display');
+    display.value = display.value.slice(0, -1); // Remove the last character
+}
+
+// Function to calculate the result
+function calculateResult() {
+    const display = document.getElementById('display');
+    try {
+        // Using eval() to calculate the result
+        display.value = eval(display.value);
+    } catch (e) {
+        // If there's an error (like a malformed expression), show an error message
+        display.value = 'Error';
+    }
+}                `,
+        },
+
+        fibonacci: {
+          description: `The Below JavaScript functions provide functionality to append numbers or operators, clear the display, delete the last character, and calculate the result in a simple calculator interface. @param value - The value parameter in the appendToDisplay function represents the number or operator that you want to append to the display. It is the input that will be added to the current content of the display.`,
+          html: `
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Fibonacci Generator&lt;/title&gt;
+  &lt;style&gt;
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+      color: #333;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 50px auto;
+      background: white;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+
+    input[type="number"] {
+      padding: 10px;
+      width: 80%;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .output {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      word-wrap: break-word;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class="container"&gt;
+    &lt;h1&gt;Fibonacci Sequence Generator&lt;/h1&gt;
+    &lt;p&gt;Enter the number of Fibonacci terms to generate:&lt;/p&gt;
+    &lt;input type="number" id="fibonacciCount" placeholder="Enter a positive number" min="1"&gt;
+    &lt;button onclick="generateFibonacci()"&gt;Generate&lt;/button&gt;
+    &lt;div id="output" class="output"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;script src="script.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt; 
+
+`,
+          javascript: `
+// Function to check if a string is a palindrome
+function generateFibonacci() {
+    const count = document.getElementById("fibonacciCount").value;
+    const outputDiv = document.getElementById("output");
+
+    if (count <= 0 || isNaN(count)) {
+      outputDiv.textContent = "Please enter a valid positive number.";
+      return;
+    }
+
+    const fibonacci = [0, 1];
+    for (let i = 2; i < count; i++) {
+      fibonacci[i] = fibonacci[i - 1] + fibonacci[i - 2];
+    }
+
+    outputDiv.textContent = outputDiv.textContent = "Fibonacci Sequence: " + fibonacci;
+  }
+               
+`,
+        },
+
+        ticTacToe: {
+          description: `This is a Tic Tac Toe game built using HTML, CSS, and JavaScript. It features a clean and responsive design with a dynamic game board, allowing two players to alternate turns as "X" and "O". The game checks for winners, draws, and provides real-time updates on the player's turn via the status display. A "Reset Game" button lets players restart the game at any time. The JavaScript logic includes event listeners for user interactions, functions to check winning combinations, and draw conditions, ensuring smooth gameplay. The gradient background and hover effects add a visually appealing touch to the interface.`,
+          html: `
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Tic Tac Toe&lt;/title&gt;
+    &lt;style&gt;
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(145deg, #f3c6f8, #e745f9);
+        }
+        #game-container {
+            text-align: center;
+        }
+        #board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 2px;
+        }
+        .cell {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 4em;
+            background-color: rgba(255, 255, 255, 0);
+            border: 2px solid #0000002d;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .cell:hover {
+            background-color: #e0e0e0;
+        }
+        #status {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        #reset-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #reset-btn:hover {
+            background-color: #45a049;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id="game-container"&gt;
+        &lt;div id="status"&gt;Player X's Turn&lt;/div&gt;
+        &lt;div id="board"&gt;&lt;/div&gt;
+        &lt;button id="reset-btn"&gt;Reset Game&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;script src="script.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+`,
+          javascript: `
+const board = document.getElementById('board');
+const status = document.getElementById('status');
+const resetBtn = document.getElementById('reset-btn');
+let currentPlayer = 'X';
+let gameBoard = ['', '', '', '', '', '', '', '', ''];
+let gameActive = true;
+
+// Create board cells
+for (let i = 0; i < 9; i++) {
+    const cell = document.createElement('div');
+    cell.classList.add('cell');
+    cell.setAttribute('data-index', i);
+    cell.addEventListener('click', handleCellClick);
+    board.appendChild(cell);
+}
+
+function handleCellClick(e) {
+    const index = e.target.getAttribute('data-index');
+    
+    if (gameBoard[index] !== '' || !gameActive) return;
+
+    gameBoard[index] = currentPlayer;
+    e.target.textContent = currentPlayer;
+    
+    if (checkWinner()) {
+        status.textContent = 'Player ' + currentPlayer + ' Wins!';
+        gameActive = false;
+        return;
+    }
+
+    if (checkDraw()) {
+        status.textContent = "It's a Draw!";
+        gameActive = false;
+        return;
+    }
+
+    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    status.textContent = 'Player ' + currentPlayer + "'s Turn";
+}
+
+function checkWinner() {
+    const winningCombos = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8],  // Rows
+        [0, 3, 6], [1, 4, 7], [2, 5, 8],  // Columns
+        [0, 4, 8], [2, 4, 6]  // Diagonals
+    ];
+
+    return winningCombos.some(combo => {
+        return combo.every(index => 
+            gameBoard[index] === currentPlayer
+        );
+    });
+}
+
+function checkDraw() {
+    return gameBoard.every(cell => cell !== '');
+}
+
+resetBtn.addEventListener('click', () => {
+    gameBoard = ['', '', '', '', '', '', '', '', ''];
+    gameActive = true;
+    currentPlayer = 'X';
+    status.textContent = "Player X's Turn";
+    
+    document.querySelectorAll('.cell').forEach(cell => {
+        cell.textContent = '';
+    });
+});`,
+},
+
+
+passwordGenerator: {
+          description: `This is a Password Generator application built with HTML, CSS, and JavaScript. The user selects options for password length and character types (lowercase, uppercase, numbers, symbols). The JavaScript code dynamically generates a random password based on the selected criteria. It ensures a secure, customizable password between 8-128 characters.`,
+          html: `
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Password Generator&lt;/title&gt;
+  &lt;style&gt;
+    body {
+      font-family: Arial, sans-serif;
+      margin: 50px;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 15px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #password {
+      margin-top: 20px;
+      padding: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+      word-break: break-all;
+      background: #eaeaea;
+      border-radius: 4px;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class="container"&gt;
+    &lt;h2&gt;Password Generator&lt;/h2&gt;
+    &lt;label for="length"&gt;Password Length&lt;/label&gt;
+    &lt;input type="number" id="length" placeholder="Enter length (e.g., 8-128)" min="8" max="128"&gt;
+    
+    &lt;label&gt;&lt;input type="checkbox" id="includeLowercase"&gt; Include Lowercase Letters&lt;/label&gt;
+    &lt;label&gt;&lt;input type="checkbox" id="includeUppercase"&gt; Include Uppercase Letters&lt;/label&gt;
+    &lt;label&gt;&lt;input type="checkbox" id="includeNumbers"&gt; Include Numbers&lt;/label&gt;
+    &lt;label&gt;&lt;input type="checkbox" id="includeSymbols"&gt; Include Symbols&lt;/label&gt;
+
+    &lt;button id="generateBtn"&gt;Generate Password&lt;/button&gt;
+
+    &lt;div id="password"&gt;Your password will appear here.&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;script src="script.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+`,
+          javascript: `
+ // JavaScript for Password Generator
+ const generateBtn = document.getElementById("generateBtn");
+ const passwordDisplay = document.getElementById("password");
+
+ generateBtn.addEventListener("click", () => {
+   const length = document.getElementById("length").value;
+   const includeLowercase = document.getElementById("includeLowercase").checked;
+   const includeUppercase = document.getElementById("includeUppercase").checked;
+   const includeNumbers = document.getElementById("includeNumbers").checked;
+   const includeSymbols = document.getElementById("includeSymbols").checked;
+
+   const password = generatePassword(length, includeLowercase, includeUppercase, includeNumbers, includeSymbols);
+   passwordDisplay.textContent = password || "Invalid options! Please try again.";
+ });
+
+ function generatePassword(length, includeLowercase, includeUppercase, includeNumbers, includeSymbols) {
+   const lowercase = "abcdefghijklmnopqrstuvwxyz";
+   const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+   const numbers = "0123456789";
+   const symbols = "!@#$%^&*()_+[]{}|;:',.<>?/";
+
+   let characterPool = "";
+   if (includeLowercase) characterPool += lowercase;
+   if (includeUppercase) characterPool += uppercase;
+   if (includeNumbers) characterPool += numbers;
+   if (includeSymbols) characterPool += symbols;
+
+   if (!characterPool || length < 8 || length > 128) {
+     return null;
+   }
+
+   let password = "";
+   for (let i = 0; i < length; i++) {
+     const randomIndex = Math.floor(Math.random() * characterPool.length);
+     password += characterPool[randomIndex];
+   }
+   return password;
+ }`,
+},
+
+
+      };
+
+
+
+
+
+      function createCopyButton(codeBlock) {
+        const copyBtn = document.createElement("button");
+        copyBtn.textContent = "Copy";
+        copyBtn.className = "copy-btn";
+
+        copyBtn.addEventListener("click", () => {
+          navigator.clipboard.writeText(codeBlock.textContent).then(() => {
+            copyBtn.textContent = "Copied!";
+            setTimeout(() => (copyBtn.textContent = "Copy"), 2000);
+          });
+        });
+
+        return copyBtn;
+      }
+
+      function displayProject(projectKey) {
+        const project = projects[projectKey];
+        const mainContent = document.getElementById("mainContent");
+
+        mainContent.innerHTML = `
+                <div class="project-title">
+                    <h1>${projectKey
+                      .replace(/([A-Z])/g, " $1")
+                      .replace(/^./, (str) => str.toUpperCase())}</h1>
+                </div>
+                <p>${project.description}</p>
+                
+                <div class="code-section">
+                    <h3>HTML Code</h3>
+                    <pre>
+                        <code class="language-html"> ${project.html.trim()}</code>
+                    </pre>                     
+                </div>
+                
+                <div class="code-section">
+                    <h3>JavaScript Code</h3>
+                    <pre>
+                        <code class="language-javascript">${project.javascript.trim()}</code>
+                    </pre>
+                </div>
+            `;
+        Prism.highlightAll();
+
+        // Add copy buttons to code blocks
+        const codeBlocks = mainContent.querySelectorAll("pre");
+        codeBlocks.forEach((block) => {
+          const copyBtn = createCopyButton(block.querySelector("code"));
+          block.appendChild(copyBtn);
+        });
+      }
+
+      // Menu click event
+      document.getElementById("projectMenu").addEventListener("click", (e) => {
+        const projectKey = e.target.getAttribute("data-project");
+        if (projectKey) {
+          // Remove active class from all items
+          document
+            .querySelectorAll(".sidebar-menu li")
+            .forEach((item) => item.classList.remove("active"));
+
+          // Add active to clicked item
+          e.target.classList.add("active");
+
+          // Display project
+          displayProject(projectKey);
+        }
+      });
+    </script>
+  </body>
+</html>
